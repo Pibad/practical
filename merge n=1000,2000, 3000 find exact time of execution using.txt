@@ -1,0 +1,109 @@
+#include<iostream.h>
+#include<conio.h>
+#include<stdlib.h>
+
+class LIST
+{
+		int n,*A;
+	public:
+		LIST(int);
+		void SET_ELE();
+		void GET_ELE();
+		void MERGE(int,int,int);
+		void MERGESORT(int,int);
+};
+LIST::LIST(int par)
+{
+	n=par;
+	A=new int[n+1];
+}
+void LIST::SET_ELE()
+{
+	//cout<<endl<<"Enter the list elements is: \n";
+	for(int i=1;i<=n;i++)
+	{
+		//cin>>A[i];
+		A[i]=random(100);
+	}
+}
+void LIST::GET_ELE()
+{
+       //	cout<<endl<<"The list elements is: \n";
+	for(int i=1;i<=n;i++)
+	{
+		cout<<A[i]<<" ";
+	}
+}
+void LIST::MERGE(int low,int mid,int high)
+{
+	int *B=new int[n+1];
+	int i=low;
+	int h=low;
+	int j=mid+1;
+	while(h<=mid && j<=high)
+	{
+		if(A[h]<A[j])
+		{
+			B[i]=A[h];
+			h=h+1;
+		}
+		else
+		{
+			B[i]=A[j];
+			j=j+1;
+		}
+		i=i+1;
+	}
+	if(h>mid)
+	{
+		for(int k=j;k<=high;k++)
+		{
+			B[i]=A[k];
+			i=i+1;
+		}
+	}
+	else
+	{
+		for(int k=h;k<=mid;k++)
+		{
+			B[i]=A[k];
+			i=i+1;
+		}
+	}
+	for(int k=low;k<=high;k++)
+	{
+		A[k]=B[k];
+	}
+	delete B;
+}
+void LIST::MERGESORT(int low,int high)
+{
+	if(low<high)
+	{
+		int mid=(low+high)/2;
+		MERGESORT(low,mid);
+		MERGESORT(mid+1,high);
+		MERGE(low,mid,high);
+	}
+
+}
+void main()
+{
+	int n;
+	clrscr();
+	cout<<"Enter total  no.of elements \n";
+	cin>>n;
+	LIST obj(n);
+	
+	obj.SET_ELE();
+	cout<<endl<<"\nElement Before sorting Element is: \n";
+	obj.GET_ELE();
+	
+	obj.MERGESORT(1,n);
+	
+	cout<<endl<<"\nElement After sorting Element is: \n";
+	obj.GET_ELE();
+	
+	
+	getch();
+}

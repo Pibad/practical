@@ -1,0 +1,89 @@
+#include<iostream.h>
+#include<conio.h>
+#include<stdlib.h>
+
+ 
+class LIST
+{
+		int *A,n;
+	public:
+		LIST(int);
+		void SET_LIST();
+		void QUICK_SORT(int,int);
+		void PARTITION(int,int&);
+		void SHOW_LIST();
+};
+LIST::LIST(int para)
+{
+	n=para;
+	A= new int[n+2];
+}
+void LIST::SET_LIST()
+{
+	for(int i=1;i<=n;i++)
+		A[i]=random(5000);
+	A[i]=9999;
+}
+void LIST::QUICK_SORT(int p,int q)
+{
+	if(p<q)
+	{
+		int j=q+1;
+		PARTITION(p,j);
+		QUICK_SORT(p,j-1);
+		QUICK_SORT(j+1,q);
+	}
+
+}
+void LIST::PARTITION(int m, int & p)
+{
+	int v =A[m];
+	int i=m;
+	do
+	{
+		do
+		{
+			i=i+1;
+		}while(A[i]<v);
+		do
+		{
+			p=p-1;
+		}while(A[p]>v);
+		if(i<p)
+		{
+			int temp=A[i];A[i]=A[p];A[p]=temp;
+		}
+		else
+			break;
+
+	}while(1);
+	A[m]=A[p];
+	A[p]=v;
+}
+void LIST::SHOW_LIST()
+{
+	//cout<<endl;
+	for(int i=1;i<=n;i++)
+		cout<<A[i]<<" ";
+}
+void main()
+{
+	clrscr();
+	int n;
+	
+	cout<<endl<<"Enter no. of elemets ; ";
+	cin>>n;
+	LIST obj(n);
+	obj.SET_LIST();
+	cout<<endl<<"\nElements before sorting : \n";
+	obj.SHOW_LIST();
+	
+	obj.QUICK_SORT(1,n);
+	
+	cout<<endl<<"\nElements after sorting : \n";
+	obj.SHOW_LIST();
+	
+ 
+	getch();
+ 
+}

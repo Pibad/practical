@@ -1,0 +1,101 @@
+#include<iostream.h>
+#include<conio.h>
+#include<stdlib.h>
+
+class HEAP
+{
+			int n,*A;
+		public:
+			HEAP(int);
+			void HEAP_SORT();
+			void HEAPIFY();
+			void ADJUST(int,int);
+			void SET_ELE();
+			void GET_ELE();
+
+};
+HEAP::HEAP(int para)
+{
+		n=para;
+		A=new int[n+1];
+}
+void HEAP::HEAPIFY()
+{
+		for(int i=n/2;i>=1;i--)
+		{
+			ADJUST(i,n);
+		}
+}
+void HEAP::HEAP_SORT()
+{
+		HEAPIFY();
+		for(int i=n;i>1;i--)
+		{
+			//exchange
+			int temp=A[i];
+			A[i]=A[1];
+			A[1]=temp;
+			//heapify the disturbed heap again
+			ADJUST(1,i-1);
+		}
+}
+void HEAP::ADJUST(int i,int n)   //i is total no.of elements in heap
+{
+		int j=2*i;
+int item=A[i];
+		while(j<=n)
+		{
+			if(j<n && A[j]<A[j+1])
+			{
+				j=j+1;
+			}
+			if(item >= A[j])
+			{
+				break;
+			}
+			else
+			{
+				A[j/2]=A[j];//shift the child up
+				j=j*2;//move the ptr down
+			}
+		}
+		A[j/2]=item;
+
+}
+void HEAP::GET_ELE()
+{
+		//cout<<endl<<"\t node \t parent";
+		for(int i=1;i<=n;i++)
+		{
+			cout<<A[i]<<" ";
+		}
+}
+void HEAP::SET_ELE()
+{
+		cout<<endl<<"Enter elements:";
+		for(int i=1;i<=n;i++)
+		{
+			A[i]=random(1000);
+	       	//	cin>>A[i];
+		}
+
+}
+void main()
+{
+		int n;
+		
+		clrscr();
+		cout<<"Enter Total Number of element: ";
+		cin>>n;
+		HEAP obj(n);
+		obj.SET_ELE();
+		cout<<endl<<"\n Elements Before sorting are:\n";
+		obj.GET_ELE();
+		
+		obj.HEAP_SORT();
+		
+		cout<<endl<<"\n Elements After sorting are:\n";
+		obj.GET_ELE();
+		
+		getch();
+} 

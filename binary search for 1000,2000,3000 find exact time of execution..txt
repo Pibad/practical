@@ -1,0 +1,125 @@
+#include<iostream.h>
+#include<conio.h>
+#include<stdlib.h>
+
+class LIST
+{
+		int *A,n;
+	public:
+		LIST(int);
+		void SET_ELE();
+		void GET_ELE();
+		void BINARY_SEARCH(int,int &);
+		void BINARY_SEARCH1(int,int &);
+		void SORT();
+};
+LIST::LIST(int par)
+{
+	n=par;
+	A=new int[n+1];
+}
+void LIST::SET_ELE()
+{
+	//cout<<endl<<"Enter list elements:\n";
+	for(int i=1;i<=n;i++)
+	       //	cin>>A[i];
+		A[i]=random(100);
+
+}
+void LIST::GET_ELE()
+{
+	cout<<endl<<"List elements are:\n";
+	for(int i=1;i<=n;i++)
+		cout<<A[i]<<" ";
+
+}
+void LIST::BINARY_SEARCH(int x,int &j)
+{
+	int low,high,mid;
+	low=1;
+	high=n;
+	while(low<=high)
+	{
+		mid=(low+high)/2;
+		if(x<A[mid])
+			high=mid-1;
+		else
+		{
+			if(x>A[mid])
+				low=mid+1;
+			else
+			{
+				j=mid;
+				return;
+			}
+		}
+
+	}
+	j=0;
+}
+void LIST::SORT()
+{
+	for(int i=1;i<=n-1;i++)
+	{
+		for(int j=1;j<=n-i;j++)
+		{
+			if(A[j]>A[j+1])
+			{
+				int temp=A[j];
+				A[j]=A[j+1];
+				A[j+1]=temp;
+			}
+		}
+	}
+
+}
+
+void LIST::BINARY_SEARCH1(int x, int &j)
+{
+	int low,high,mid;
+	low=1;
+	high=n+1;
+	while(low<high-1)
+	{
+		mid=(low+high)/2;
+		if(x<A[mid])
+			high=mid;
+		else
+			low=mid;
+	}
+	if(x==A[low])
+		j=low;
+	else
+		j=0;
+}
+void main()
+{
+	int n,pos,x;
+	clrscr();
+	
+	cout<<"\n Enter Total number of element:";
+	cin>>n;
+	LIST obj(n);
+	obj.SET_ELE();
+	obj.SORT();
+	cout<<endl<<"Elements of the List are:\n";
+	obj.GET_ELE();
+	cout<<endl<<"Enter element to search in list:\n";
+	cin>>x;
+	
+	obj.BINARY_SEARCH(x,pos);
+	//obj.BINARY_SEARCH1(x,pos);
+	T.stop();
+	if(pos)
+		cout<<endl<<"Element found at:"<<pos;
+	else
+		cout<<endl<<"Element not found:";
+	
+	getch();
+}
+
+
+
+
+
+
