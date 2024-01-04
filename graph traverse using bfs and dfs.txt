@@ -1,0 +1,148 @@
+#include<iostream.h>
+#include<conio.h>
+int A[10][10]={
+{0, 0,0,0,0,0,0,0,0},
+
+{0, 0,1,0,1,1,0,0,0},
+{0, 1,0,0,0,1,1,1,0},
+{0, 0,0,0,0,1,0,0,1},
+{0, 1,0,0,0,0,0,0,1},
+{0, 1,1,1,0,0,1,0,0},
+{0, 0,1,0,0,1,0,0,0},
+{0, 0,1,0,0,0,0,0,0},
+{0, 0,0,1,1,0,0,0,0}
+};
+class GRAPH
+{
+		int n;
+		int T[10][2],min_cost,VISITED[10];
+	public:
+		GRAPH(int);
+		void READ_GRAPH();
+		void SHOW_GRAPH();
+		void BFS(int);
+		void DFS(int);
+		void BFT();
+		void DFT();
+};
+GRAPH::GRAPH(int para)
+{
+	n=para;
+	for(int i=1;i<=n;i++)
+		VISITED[i]=0;
+}
+void GRAPH::READ_GRAPH()
+{
+	cout<<endl<<"Enter cost adj matrix : \n";
+	for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+			cin>>A[i][j];
+}
+void GRAPH::SHOW_GRAPH()
+{
+	cout<<endl<<"Cost adj matrix is : \n";
+	for(int i=1;i<=n;i++)
+	{
+		cout<<endl;
+		for(int j=1;j<=n;j++)
+			cout<<A[i][j]<<" ";
+	}
+}
+void GRAPH::BFS(int v)
+{
+	int VISITED[10],u;
+	int Q[10],front,rear;
+	VISITED[v]=1;
+	u=v;
+	front=rear=0;
+	do
+	{
+		cout<<u<<" ";
+		for(int w=1;w<=n;w++)
+		{
+			if(A[u][w]==1 && VISITED[w]==0)
+			{
+				if(front==0)
+					front=1;
+				rear = rear+1;
+				Q[rear] = w;
+				VISITED[w]=1;
+			}
+		}
+		if(front==0)
+			return;
+		else // del from Q and store in u
+		{
+			u=Q[front];
+			if(front==rear)
+				front=rear=0;
+			else
+				front =front+1;
+		}
+	}while(1);
+}
+void GRAPH::DFS(int v)
+{
+	int VISITED[10],u;
+	int STK[10],top;
+	VISITED[v]=1;
+	u=v;
+	top=0;
+	do
+	{
+		cout<<u<<" ";
+		for(int w=1;w<=n;w++)
+		{
+			if(A[u][w]==1 && VISITED[w]==0)
+			{
+				top = top+1;
+				STK[top] = w;
+				VISITED[w]=1;
+			}
+		}
+		if(top==0)
+			return;
+		else // del from Q and store in u
+		{
+			u=STK[top];
+			top = top-1;
+		}
+	}while(1);
+}
+void GRAPH::BFT()
+{
+	for(int i=1;i<=n;i++)
+	{
+		if(VISITED[i]==0)
+			BFS(i);
+}
+}
+void GRAPH::DFT()
+{
+	for(int i=1;i<=n;i++)
+	{
+		if(VISITED[i]==0)
+			DFS(i);
+}
+
+}
+void main()
+{
+	clrscr();
+		int n,v;
+		cout<<endl<<"Enter no of vertices : ";
+		cin>>n;
+		GRAPH obj1(n);
+		GRAPH obj2(n);
+		//obj.READ_GRAPH();
+		obj.SHOW_GRAPH();
+		//cout<<endl<<"Enter source vertex : ";
+		//cin>>v;
+		cout<<endl<<”Breadth First Traversal Graph sequence=”;
+		//cout<<endl;
+		obj.BFT(v);
+		cout<<endl;
+cout<<endl<<”Depth First Traversal Graph sequence=”;
+		obj.DFT(v);
+	getch();
+}

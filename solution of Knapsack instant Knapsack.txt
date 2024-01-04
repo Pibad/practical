@@ -1,0 +1,101 @@
+#include<iostream.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<timer.h>
+class KNAPSACK
+{
+		int n,X[10];      //B(n x M )
+		float P[10],W[10],M,B[10][20],max_profit;
+	public:
+		KNAPSACK(int);
+		void GET_DATA();
+		void KNAPSACK_DP();
+		void SHOW_SOL();
+		float MAX(float,float);
+};
+KNAPSACK::KNAPSACK(int par)
+{
+	n=par;
+	for(int i=1;i<=n;i++)
+		X[i]=0;
+	max_profit=0;
+}
+void KNAPSACK::GET_DATA()
+{
+	cout<<endl<<"Enter weights of objects : ";
+	for(int i=1;i<=n;i++)
+		cin>>W[i];
+	cout<<endl<<"Enter profit / value of objects : ";
+	for(i=1;i<=n;i++)
+		cin>>P[i];
+	cout<<endl<<"Enter Max capacity of Knapsack : ";
+		cin>>M;
+}
+void KNAPSACK::KNAPSACK_DP()
+{
+	//first row zero
+	for(int i=1;i<=M;i++)
+		B[0][i]=0;
+	//first column zero
+	for(i=1;i<=n;i++)
+		B[i][0]=0;
+
+	for(i=1;i<=n;i++)
+		for(int cu=1;cu<=M;cu++)
+			if(W[i]<=cu)
+					 // MaxOf(profdueto new or old profit)
+				B[i][cu]=MAX(P[i]+B[i-1][cu-W[i]] , B[i-1][cu]);
+			else
+				B[i][cu]=B[i-1][cu];
+}
+float KNAPSACK::MAX(float a, float b)
+{
+	if(a>b)
+		return a;
+	else
+		return b;
+}
+void KNAPSACK::SHOW_SOL()
+{
+	int i,k;
+	cout<<endl;
+	for(i=1;i<=n;i++)
+	{
+		cout<<endl;
+		for(int cu=1;cu<=M;cu++)
+			cout<<B[i][cu]<<" ";
+	}
+	i=n;
+	k=M;
+	while(i>0 && k>0)
+	{
+		if(B[i][k]!=B[i-1][k])
+		{
+			X[i]=1;
+			k=k-W[i];
+		}
+		i=i-1;
+	}
+	cout<<endl<<"Solution Vector is \n";
+	for(i=1;i<=n;i++)
+	{
+		cout<<X[i]<<" ";
+		max_profit=max_profit + P[i] * X[i];
+	}
+	cout<<endl<<"\nMax profit gained = \n"<<max_profit;
+}
+void main()
+{
+	int n;
+	clrscr();
+	cout<<endl<<"Enter no of objects : ";
+	cin>>n;
+	KNAPSACK obj(n);
+	obj.GET_DATA();
+	obj.KNAPSACK_DP();
+	obj.SHOW_SOL();
+	getch();
+}
+
+
+
